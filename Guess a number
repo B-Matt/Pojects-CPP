@@ -1,0 +1,96 @@
+/*
+            Name: Guess a number!
+            Author: Matej Arlovic (B-Matt)
+            Date: 26.4.2013. | (c) 2013.
+            Modified: 27.4.2013.
+*/
+/*
+            Program nasumiènim odabriom odabire broj od 1-30 (kasnije u tekstu rBroj). Cilj igraèa je taj da pogodi taj broj.
+            Igraè kao pomoæ dobije i hint u kojem rasponu brojeva se taj broj nalazi!
+            Ukoliko je uneseni broj veæi od rBroja onda se ispisuje da je rBroj manji od unesenog broja, suprotno ispisuje da je rBroj veæi od unesenog broja.
+            U svakome trenutku možete nastaviti ili izaæi iz igre.
+*/
+
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+    int guess = 0,
+        number = 0,
+        pick = 0,
+        out = 0,
+        wrong = 0,
+        number1 = 0;
+    char pnick[24];
+    cout << "\t ==================================="<<endl;
+    cout << "\t\tGuess a number 2013 "<<endl;
+    cout << "\t ==================================="<<endl<<endl;
+
+    cout << "Zelis igrati? (1 za nastavak, 0 za izlazak iz programa): ";
+    cin >> pick;
+    while(pick != 0)
+    {
+        cout << "Unesi svoj nadimak: ";
+        cin >> pnick;
+        if(strlen(pnick) > 24) {
+                cout << "Prevelik nadimak (23 znamenke)!"<<endl;
+                cout << "Unesi svoj nadimak: ";
+                cin >> pnick;
+        }
+        else if(strlen(pnick) > 0)
+        {
+            srand(time(NULL));
+            number = 1 + rand() % 30;
+            number1 = 1 + rand() % 6;
+            system("CLS");
+            cout << "\t ==================================="<<endl;
+            cout << "\t\tGuess a number 2013 "<<endl;
+            cout << "\t ==================================="<<endl<<endl;
+            cout << "Pozdrav " << pnick << " pogodi broj koji sam ti zadao."<<endl;
+            if(number < 30)
+                      cout << "HINT: Tvoj broj je izmedju " << number+number1 << " i " << number-number1<<endl;
+            else if(number == 30)
+                 cout << "HINT: Tvoj broj je izmedju " << number << " i " << number-number1<<endl;
+            else if(number == 1 || number == 2 || number == 3 || number == 4 || number == 5)
+                 cout << "HINT: Tvoj broj je izmedju " << number+number1 << " i " << number<<endl;
+            cout << "Unesi tvoj broj (0 za izlazak): ";
+            cin >> guess;
+            while(guess != number)
+            {
+                        wrong++;
+                        if(wrong == 3)
+                        {
+                                 cout << "Tri puta si unio krivi odgovor i igra je prekinuta!\n";
+                                 out = 1;
+                                 break;
+                        }
+                        if(guess == 0)
+                        {
+                            cout << "Unio si broj 0, igra prekinuta!\n";
+                            out = 1;
+                            break;
+                        }
+                        if(number < guess) cout << "Broj je manji od tvoga broja!\n";
+                        else if(number > guess) cout << "Broj je veci od tvoga broja!\n";
+                        cout << "Unesi tvoj broj (0 za izlazak)["<<wrong<<"]: ";
+                        cin >> guess;
+                        out = 0;
+            }
+            if(out == 0) cout << "Cestitam "<<pnick<< " pogodio si broj: " << number << "\nImao si " << wrong << " pogresaka.\n"<< endl;
+            out = 0;
+            cout << "Zelite nastaviti? (1 za nastavak, 0 za izlazak iz programa): ";
+            cin >> pick;
+        }
+    }
+    system("CLS");
+    cout << "\t ==================================="<<endl;
+    cout << "\t\tGuess a number 2013 "<<endl;
+    cout << "\t ==================================="<<endl<<endl;
+    cout << "Odabrao si izlazak iz igre! Sretno ti dalje :)\n";
+    system("pause");
+    return 0;
+}
