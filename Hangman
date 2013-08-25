@@ -1,0 +1,314 @@
+/*
+            Name: Hangman
+            Author: Matej Arlovic (B-Matt)
+            Date: 25.8.2013. | (c) 2013.
+            Modified: -//-
+*/
+#include <iostream>
+#include <string>
+
+using namespace std;
+//Variables
+char gcWord[50];
+char gcWords[50];
+char gstrNick[24];
+int giError(0);
+bool gbWon(false);
+//Functions
+void SearchALetter(const char, char[50]);
+void PrintAChicko(int);
+void PrintWordsHelp(char[50]);
+void ClearBackupWord(char[50],unsigned int);
+void StartNewGame();
+int IsAWinner(const char[50]);
+bool CheckInputWord(const char[50],unsigned int);
+
+void main()
+{
+	bool bWordInputed(false);
+
+	cout << "Input your nickname: ";
+	cin.getline(gstrNick,24);
+
+	do
+	{
+		system("CLS");
+		cout << "Input your word: ";
+		cin.getline(gcWord,50);
+		if(strlen(gcWord) > 0)
+			bWordInputed = true;
+	}
+	while(!bWordInputed);
+
+	if(CheckInputWord(gcWord,strlen(gcWord)))
+	{
+		ClearBackupWord(gcWords,strlen(gcWord));
+		do
+		{
+			system("CLS");
+			PrintWordsHelp(gcWords);
+			PrintAChicko(giError);
+
+			cout << "Input a letter: ";
+			char lcLetter;
+			cin >> lcLetter;
+			SearchALetter(lcLetter, gcWord);
+
+			if(giError == -1) //lost
+			{
+				system("CLS");
+				PrintWordsHelp(gcWords);
+				PrintAChicko(giError);
+				cout << "\nYou lose! Word: ";
+				for(unsigned int iIndex=0; iIndex != strlen(gcWords); iIndex++)
+				{
+					cout << gcWords[iIndex];
+				}
+				cout << endl;
+			}
+			else if(gbWon == true) //won
+			{
+				system("CLS");
+				PrintWordsHelp(gcWords);
+				PrintAChicko(giError);
+				cout << "\nYou won! Word: ";
+				for(unsigned int iIndex=0; iIndex != strlen(gcWords); iIndex++)
+				{
+					cout << gcWords[iIndex];
+				}
+				cout << endl;
+				cout << "You want to play again (y/n): ";
+				char cPick;
+				cin >> cPick;
+				switch(cPick)
+				{
+				case 'y':
+					StartNewGame();
+					break;
+				case 'n':
+					exit(1);
+					break;
+				}
+			}
+		}
+		while(!gbWon);
+	}
+	else 
+	{
+		bWordInputed = false;
+		do
+		{
+			cout << "Input your word: ";
+			cin.getline(gcWord,50);
+			if(strlen(gcWord) > 0)
+				bWordInputed = true;
+		}
+		while(!bWordInputed);
+	}
+}
+
+int IsAWinner(const char cWord[50])
+{
+	int iCount(0);
+	for(unsigned int iIndex=0; iIndex != strlen(cWord); iIndex++)
+	{
+		if(cWord[iIndex] != '#')
+		{
+			iCount++;
+		}
+	}
+	return iCount;
+}
+void SearchALetter(const char cLetter, char cWord[50])
+{
+	bool lbCorrectWord(false);
+	for(unsigned int iIndex=0; iIndex != strlen(cWord); iIndex++)
+	{
+		if(cWord[iIndex] == cLetter && cWord[iIndex] != '#')
+		{
+			gcWords[iIndex] = cWord[iIndex];
+			cWord[iIndex] = '#';
+			lbCorrectWord = true;
+			continue;
+		}
+	}
+	if(lbCorrectWord == false)
+	{
+		giError++;
+		if(giError >= 7)
+		{
+			giError = -1;
+		}
+	}
+	if(IsAWinner(cWord) == 0)
+	{
+		gbWon = true;
+	}
+}
+void ClearBackupWord(char cWord[50], unsigned int iLen)
+{
+	for(unsigned int iIndex=0; iIndex != iLen; iIndex++)
+	{
+		cWord[iIndex] = '#';
+	}
+}
+void PrintAChicko(int iProgress)
+{ 
+	switch(iProgress)
+	{
+	case 0:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\n|\n|\n|\n|\n|"<<endl;
+			break;
+		}
+	case 1:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\n|\n|\n|\n|"<<endl;
+			break;
+		}
+	case 2:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/"<<endl;
+			cout << "|\n|\n|\n|"<<endl;
+			break;
+		}
+	case 3:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/X"<<endl;
+			cout << "|\n|\n|\n|"<<endl;
+			break;
+		}
+	case 4:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/X\\"<<endl;
+			cout << "|\n|\n|\n|"<<endl;
+			break;
+		}
+	case 5:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/X\\"<<endl;
+			cout << "|\t\t/"<<endl;
+			cout << "|\n|\n|"<<endl;
+			break;
+		}
+	case 6:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/X\\"<<endl;
+			cout << "|\t\t/ \\"<<endl;
+			cout << "|\n|\n|"<<endl;
+			break;
+		}
+	case 7:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t O"<<endl;
+			cout << "|\t\t/X\\"<<endl;
+			cout << "|\t\t/ \\"<<endl;
+			cout << "|\n|\n|"<<endl;
+			break;
+		}
+	default:
+		{
+			cout << "__________________"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\t\t |"<<endl;
+			cout << "|\n|\n|\n|\n|\n|"<<endl;
+			break;
+		}
+	}
+}
+void PrintWordsHelp(char cWord[50])
+{
+	cout << "HELP: ";
+	for(unsigned int iIndex=0; iIndex < strlen(cWord); iIndex++)
+	{
+		if(cWord[iIndex] != '#')
+		{
+			cout << cWord[iIndex] << " ";
+			continue;
+		}
+		else if(cWord[iIndex] == '_')
+		{
+			cout << " ";
+		}
+		else
+		{
+			cout << "- ";
+		}
+	}
+	cout << endl;
+}
+void StartNewGame()
+{
+	bool bWordInputed(false);
+	do
+	{
+		system("CLS");
+		cout << "Input your word: ";
+		cin.getline(gcWord,50);
+		if(strlen(gcWord) > 0)
+			bWordInputed = true;
+	}
+	while(!bWordInputed);
+
+	if(CheckInputWord(gcWord,strlen(gcWord)))
+	{
+		ClearBackupWord(gcWords,strlen(gcWord));
+		gbWon = false;
+		giError = 0;
+	}
+	else 
+	{
+		bWordInputed = false;
+		do
+		{
+			system("CLS");
+			cout << "Input your word: ";
+			cin.getline(gcWord,50);
+			if(strlen(gcWord) > 0)
+				bWordInputed = true;
+		}
+		while(!bWordInputed);
+	}
+}
+bool CheckInputWord(const char kcWord[50], unsigned int iLen)
+{
+	for(unsigned int iIndex=0; iIndex != iLen; iIndex++)
+	{
+		if(kcWord[iIndex] == ' ')
+		{
+			cerr << "Ne smijete koristiti space (' ') u ovoj igri! Koristite underscore ('_')!"<<endl;
+			return false;
+		}
+	}
+	return true;
+}
