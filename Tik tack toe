@@ -1,0 +1,206 @@
+//  				Author: Matej Arlović (B-Matt)
+//					Date: 22.5.2013. | (c) 2013.
+//					Modified: 25.5.2013.
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+void DrawCopyRight()
+{
+	cout << "\t ==================================="<<endl;
+    cout << "\t\tTik tak toe 2013. (c) "<<endl;
+    cout << "\t ==================================="<<endl<<endl;
+}
+
+int main()
+{
+	int iPlayerTurn (1), 
+		iSquer[9] = {0},
+		iTurn(1);
+	char cSquer[9] = {' '},
+		 cPlayerSign;
+	bool bGameOn(true);
+	string sPlayerName1, sPlayerName2;
+
+	DrawCopyRight();
+	cout << "Input your nickname [P:1]: ";
+	cin >> sPlayerName1;
+	cout << "Input your nickname [P:2]: ";
+	cin >> sPlayerName2;
+	
+	do
+	{
+		if(iPlayerTurn == 1) {
+			cPlayerSign = 'X';
+		} else if(iPlayerTurn == 2) {
+			cPlayerSign = 'O';
+		}
+
+		system("CLS");
+		DrawCopyRight();
+
+		cout << endl;
+		cout <<"\t\t" << cSquer[0] << "|" <<  cSquer[1] << "|" <<  cSquer[2] << endl;
+		cout <<"\t\t" << "-+-+-" <<endl;  
+		cout <<"\t\t" << cSquer[3] << "|" << cSquer[4] << "|" << cSquer[5] <<endl;
+		cout <<"\t\t" << "-+-+-" <<endl;  
+		cout <<"\t\t" << cSquer[6] << "|" << cSquer[7] << "|" << cSquer[8] <<endl;
+		cout << "Choose a field["<< iPlayerTurn <<"]: ";
+
+		bool bValidMove(false);
+		while(!bValidMove) {
+			char cPick;
+
+			cin >> cPick;
+			bValidMove = true;
+			if(cPick == '1' && iSquer[0] == 0) {
+				cSquer[0] = cPlayerSign;
+				iSquer[0] = 1;
+			}
+			else if(cPick == '2' && iSquer[1] == 0) {
+				cSquer[1] = cPlayerSign;
+				iSquer[1] = 1;
+			}
+			else if(cPick == '3' && iSquer[2] == 0) {
+				cSquer[2] = cPlayerSign;
+				iSquer[2] = 1;
+			}
+			else if(cPick == '4' && iSquer[3] == 0) {
+				cSquer[3] = cPlayerSign;
+				iSquer[3] = 1;
+			}
+			else if(cPick == '5' && iSquer[4] == 0) {
+				cSquer[4] = cPlayerSign;
+				iSquer[4] = 1;
+			}
+			else if(cPick == '6' && iSquer[5] == 0) {
+				cSquer[5] = cPlayerSign;
+				iSquer[5] = 1;
+			}
+			else if(cPick == '7' && iSquer[6] == 0) {
+				cSquer[6] = cPlayerSign;
+				iSquer[6] = 1;
+			}
+			else if(cPick == '8' && iSquer[7] == 0) {
+				cSquer[7] = cPlayerSign;
+				iSquer[7] = 1;
+			}
+			else if(cPick == '9' && iSquer[8] == 0) {
+				cSquer[8] = cPlayerSign;
+				iSquer[8] = 1;
+			}
+			else {
+				cout << "Wrong field input!"<<endl;
+				bValidMove = false;
+			}
+		}
+
+		bool bGameWon(false);
+
+		if(iSquer[0] != 0) //1
+		{
+			if(cSquer[0] == cPlayerSign && cSquer[1] == cPlayerSign && cSquer[2] == cPlayerSign) {//123
+				bGameWon = true;
+			}
+			if(cSquer[0] == cPlayerSign && cSquer[3] == cPlayerSign && cSquer[6] == cPlayerSign)  {//147
+				bGameWon = true;
+			}
+		}
+		if(iSquer[4] != 0) //5
+		{
+			if(cSquer[1] == cPlayerSign && cSquer[4] == cPlayerSign && cSquer[7] == cPlayerSign) { //258
+				bGameWon = true;
+			}
+			if(cSquer[3] == cPlayerSign && cSquer[4] == cPlayerSign && cSquer[5] == cPlayerSign) { //456
+				bGameWon = true;
+			}
+			if(cSquer[0] == cPlayerSign && cSquer[4] == cPlayerSign && cSquer[8] == cPlayerSign) { //159
+				bGameWon = true;
+			}
+			if(cSquer[6] == cPlayerSign && cSquer[4] == cPlayerSign && cSquer[2] == cPlayerSign) { //753
+				bGameWon = true;
+			}
+		}
+
+		if(iSquer[8] != 0) //9
+		{
+			if(cSquer[0] == cPlayerSign && cSquer[4] == cPlayerSign && cSquer[8] == cPlayerSign)  {//159
+				bGameWon = true;
+			}
+			if(cSquer[6] == cPlayerSign && cSquer[7] == cPlayerSign && cSquer[8] == cPlayerSign) { //789
+				bGameWon = true;
+			}
+		}
+		bool bAllBlank(false);
+		if (iSquer[0] != 0 && iSquer[1] != 0 && iSquer[2] != 0 &&
+			iSquer[3] != 0 && iSquer[4] != 0 && iSquer[5] != 0 &&
+			iSquer[6] != 0 && iSquer[7] != 0 && iSquer[8] != 0 && bGameWon == false)
+		{
+			bGameWon = true;
+			bAllBlank = true;
+		}
+
+		if(bGameWon)
+		{
+			char cPick;
+			system("CLS");
+			DrawCopyRight();
+
+			cout << endl;
+			cout <<"\t\t" << cSquer[0] << "|" <<  cSquer[1] << "|" <<  cSquer[2] << endl;
+			cout <<"\t\t" << "-+-+-" <<endl;  
+			cout <<"\t\t" << cSquer[3] << "|" << cSquer[4] << "|" << cSquer[5] <<endl;
+			cout <<"\t\t" << "-+-+-" <<endl;  
+			cout <<"\t\t" << cSquer[6] << "|" << cSquer[7] << "|" << cSquer[8] <<endl;
+			if(!bAllBlank)
+			{
+			
+				if(iPlayerTurn == 1)
+					cout <<"Player "<<sPlayerName1<<" is winner in "<<iTurn<<" moves!"<<endl;
+				else if(iPlayerTurn == 2)
+					cout <<"Player "<<sPlayerName2<<" is winner in "<<iTurn<<" moves!"<<endl;
+			}
+			cout << "New game (y/n)? ";
+			cin >> cPick;
+			if(cPick == 'y')
+			{
+				if(iPlayerTurn == 1) {
+					iPlayerTurn = 2;
+				} else {
+					iPlayerTurn = 1;
+				}
+				iTurn = 1;
+				for(int i=0; i < 10; i++)
+				{
+					cSquer[i] = ' ';
+					iSquer[i] = 0;
+				}
+				system("CLS");
+				DrawCopyRight();
+				cout << "Input your nickname [P:1]: ";
+				cin >> sPlayerName1;
+				cout << "Input your nickname [P:2]: ";
+				cin >> sPlayerName2;
+
+				bGameOn = true;
+			}
+			else if(cPick == 'n') {
+				bGameOn = false;
+			}
+			else {
+				cout << "Wrong input!"<<endl;
+				bGameOn = false;
+			}
+		} 
+
+		if(iPlayerTurn == 1) {
+			iPlayerTurn = 2;
+		} else {
+			iPlayerTurn = 1;
+		}
+		iTurn++;
+	} while(bGameOn);
+	system("pause");
+    return 0;
+}
